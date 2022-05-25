@@ -2,7 +2,6 @@ from ariadne import gql
 from ariadne import ObjectType, QueryType, make_executable_schema
 from django.db.models import Q
 from .models import Country
-from django.db import connection, reset_queries
 
 type_defs = gql(
     """
@@ -60,8 +59,6 @@ def resolve_country_and_currencies(*_, currencies=None, search=None):
     for c in countries:
         lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
 
-    print(len(connection.queries))
-    reset_queries()
     return lst
 
 
