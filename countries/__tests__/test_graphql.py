@@ -27,7 +27,6 @@ def test_graphql_countries():
         GRAPHQL_URL,
         {"query": query},
         content_type="application/json",
-        headers={'Content-Length': '25298000'}
     )
 
     assert response.status_code == 200
