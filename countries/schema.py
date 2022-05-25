@@ -33,19 +33,19 @@ def resolve_countries(obj, info):
     return Country.objects.order_by('symbol')
 
 
+# @query.field("countries")
+# def resolve_currencies(*obj, currencies=None):
+#
+#     countries = Country.objects.prefetch_related('currencies')
+#     lst = []
+#     for c in countries:
+#         lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
+#
+#     return lst
+
+
 @query.field("countries")
-def resolve_currencies(*obj, currencies=None):
-
-    countries = Country.objects.prefetch_related('currencies')
-    lst = []
-    for c in countries:
-        lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
-
-    return lst
-
-
-@query.field("countries")
-def resolve_country_and_currencies(*_, currencies=None, search):
+def resolve_country_and_currencies(*_, currencies=None, search=None):
 
     if search:
         countries = Country.objects.filter(
