@@ -1,7 +1,7 @@
 from ariadne import gql
 from ariadne import ObjectType, QueryType, make_executable_schema
 from django.db.models import Q
-from .models import Country, Currency
+from .models import Country
 
 type_defs = gql(
     """
