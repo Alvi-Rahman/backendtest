@@ -1,5 +1,6 @@
 from ariadne import gql
 from ariadne import ObjectType, QueryType, make_executable_schema
+from .models import Country, Currency
 
 type_defs = gql(
     """
@@ -24,6 +25,11 @@ country = ObjectType("Country")
 
 
 # TODO: Add resolvers here
+
+@query.field("countries")
+def resolve_countries(_, info):
+
+    return Country.objects.order_by('symbol')
 
 
 schema = make_executable_schema(type_defs, query, country)
