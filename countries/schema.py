@@ -27,8 +27,8 @@ country = ObjectType("Country")
 # TODO: Add resolvers here
 
 @query.field("countries")
-def resolve_countries(_, info):
-
+def resolve_countries(obj, info):
+    # Used `symbol` as per example as `name` doesn't produce the example output provided
     return Country.objects.order_by('symbol')
 
 
