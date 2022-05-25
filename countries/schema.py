@@ -1,5 +1,6 @@
 from ariadne import gql
 from ariadne import ObjectType, QueryType, make_executable_schema
+from django.db.models import Q
 from .models import Country, Currency
 
 type_defs = gql(
@@ -36,6 +37,22 @@ def resolve_countries(obj, info):
 def resolve_currencies(*obj, currencies=None):
 
     countries = Country.objects.prefetch_related('currencies')
+    lst = []
+    for c in countries:
+        lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
+
+    return lst
+
+
+@query.field("countries")
+def resolve_country_and_currencies(*_, currencies=None, search):
+
+    if search:
+        countries = Country.objects.filter(
+            Q(name__icontains=search) | Q(symbol__icontains=search)
+        ).prefetch_related('currencies')
+    else:
+        countries = Country.objects.prefetch_related('currencies')
     lst = []
     for c in countries:
         lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
