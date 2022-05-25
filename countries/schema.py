@@ -27,12 +27,14 @@ country = ObjectType("Country")
 
 # TODO: Add resolvers here
 
+# Task 1
 @query.field("countries")
 def resolve_countries(obj, info):
     # Used `symbol` as per example as `name` doesn't produce the example output provided
     return Country.objects.order_by('symbol')
 
 
+# Task 2
 # @query.field("countries")
 # def resolve_currencies(*obj, currencies=None):
 #
@@ -44,6 +46,7 @@ def resolve_countries(obj, info):
 #     return lst
 
 
+# Task 2 and 3
 @query.field("countries")
 def resolve_country_and_currencies(*_, currencies=None, search=None):
 
