@@ -48,7 +48,6 @@ def test_graphql_countries():
 
 
 # TODO Test querying with the filter as well
-
 class TestGraphQlCountriesWithFilter(TestSetUp):
     def test_with_aus_filter(self):
         response = self.client.post(
@@ -56,7 +55,6 @@ class TestGraphQlCountriesWithFilter(TestSetUp):
             {"query": self.aus_query},
             content_type="application/json",
         )
-        print(len(connection.queries))
 
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(response.json().get("errors"))
@@ -69,14 +67,23 @@ class TestGraphQlCountriesWithFilter(TestSetUp):
             {"query": self.gbr_query},
             content_type="application/json",
         )
-        print(len(connection.queries))
 
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(response.json().get("errors"))
 
         self.assertEqual(self.gbr_filter_response, response.json())
 
+    def test_with_no_filter(self):
+        response = self.client.post(
+            self.GRAPHQL_URL,
+            {"query": self.no_filter_query},
+            content_type="application/json",
+        )
 
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.json().get("errors"))
+
+        self.assertEqual(self.no_filter_response, response.json())
 
 # def test_graphql_countries_with_filter():
 #

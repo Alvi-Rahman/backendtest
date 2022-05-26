@@ -1,3 +1,5 @@
+import os
+
 from django.test import TestCase, Client
 import json
 from string import Template
@@ -18,8 +20,9 @@ class TestSetUp(TestCase):
                   }
                 }
             """)
-        self.aus_query = query.substitute(filter='aus')
-        self.gbr_query = query.substitute(filter='gbr')
+        self.aus_query = query.substitute(filter="aus")
+        self.gbr_query = query.substitute(filter="gbr")
+        self.no_filter_query = query.substitute(filter="")
 
         self.client = Client()
         self.GRAPHQL_URL = "/graphql/"
@@ -71,6 +74,10 @@ class TestSetUp(TestCase):
                   }
                 }
                 """)
+
+        file_path = (os.path.dirname(__file__)) + "/task_2_expected_output.json"
+        with open(file_path, "r+") as f:
+            self.no_filter_response = json.loads(f.read())
 
         return super(TestSetUp, self).setUp()
 
