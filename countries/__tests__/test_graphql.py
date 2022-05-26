@@ -63,6 +63,19 @@ class TestGraphQlCountriesWithFilter(TestSetUp):
 
         self.assertEqual(self.aus_filter_response, response.json())
 
+    def test_with_gbr_filter(self):
+        response = self.client.post(
+            self.GRAPHQL_URL,
+            {"query": self.gbr_query},
+            content_type="application/json",
+        )
+        print(len(connection.queries))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.json().get("errors"))
+
+        self.assertEqual(self.gbr_filter_response, response.json())
+
 
 
 # def test_graphql_countries_with_filter():

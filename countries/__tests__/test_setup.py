@@ -19,6 +19,7 @@ class TestSetUp(TestCase):
                 }
             """)
         self.aus_query = query.substitute(filter='aus')
+        self.gbr_query = query.substitute(filter='gbr')
 
         self.client = Client()
         self.GRAPHQL_URL = "/graphql/"
