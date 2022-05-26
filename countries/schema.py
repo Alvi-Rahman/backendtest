@@ -55,6 +55,10 @@ def resolve_country_and_currencies(*_, currencies=None, search=None):
         ).prefetch_related('currencies')
     else:
         countries = Country.objects.prefetch_related('currencies')
+
+    # Couldn't find any other alternatives for GraphQL other than using for loop
+    # In case of Serializers adding (many=True) would have done the work
+    
     lst = []
     for c in countries:
         lst.append({**c.__dict__, **{"currencies": c.currencies.order_by('name')}})
